@@ -8,6 +8,7 @@
   </head>
   <body>
     <style>
+      /* CSS styles giữ nguyên */
       body {
         background-image: url('wukong-1.jpg');
         background-size: cover;
@@ -17,7 +18,7 @@
         margin: 0;
         padding: 20px 50px;
         height: 90vh;
-        color: white; /* Để đảm bảo chữ nổi bật trên nền ảnh */
+        color: white;
       }
 
       button {
@@ -89,7 +90,6 @@
         color: #000;
       }
 
-      /* Hiệu ứng cho phần tử công đức */
       #cong-duc {
         font-size: 1.5rem;
         color: #ff4500;
@@ -101,7 +101,6 @@
         transition: opacity 0.3s ease, transform 0.3s ease;
       }
 
-      /* Hiệu ứng khi hiển thị */
       #cong-duc.show {
         opacity: 1;
         transform: translate(-50%, -60%);
@@ -140,7 +139,6 @@
         <audio id="sound-chuong" src="./chuong.mp3"></audio>
       </div>
 
-      <!-- Phần tử hiển thị công đức -->
       <div id="cong-duc"></div>
 
       <div class="document">
@@ -152,48 +150,52 @@
     </div>
 
     <script>
-      document.addEventListener("keydown", function (event) {
+      // Hàm xử lý gõ mõ
+      function goMo() {
+        const soundMo = document.getElementById("sound-mo");
         const mallet1 = document.getElementById("btn-1");
+        const congDucElement = document.getElementById("cong-duc");
+
+        soundMo.currentTime = 0;
+        soundMo.play().catch((error) => console.error("Lỗi phát âm thanh:", error));
+        
+        mallet1.classList.add("active");
+        setTimeout(() => mallet1.classList.remove("active"), 100);
+        
+        congDucElement.textContent = `+1 Công đức`;
+        congDucElement.classList.add("show");
+        setTimeout(() => congDucElement.classList.remove("show"), 1000);
+      }
+
+      // Hàm xử lý gõ chuông
+      function goChuong() {
+        const soundChuong = document.getElementById("sound-chuong");
         const mallet2 = document.getElementById("btn-2");
         const congDucElement = document.getElementById("cong-duc");
 
-        // Hàm hiển thị số công đức
-        function showCongDuc(value) {
-          congDucElement.textContent = `+${value} Công đức`;
-          congDucElement.classList.add("show");
+        soundChuong.currentTime = 0;
+        soundChuong.play().catch((error) => console.error("Lỗi phát âm thanh:", error));
+        
+        mallet2.classList.add("active");
+        setTimeout(() => mallet2.classList.remove("active"), 100);
+        
+        congDucElement.textContent = `+10 Công đức`;
+        congDucElement.classList.add("show");
+        setTimeout(() => congDucElement.classList.remove("show"), 1000);
+      }
 
-          // Ẩn công đức sau 1 giây
-          setTimeout(() => {
-            congDucElement.classList.remove("show");
-          }, 1000);
-        }
-
+      // Sự kiện khi nhấn phím Space hoặc Enter
+      document.addEventListener("keydown", function (event) {
         if (event.code === "Space") {
-          // Gõ mõ khi nhấn phím Space
-          const soundMo = document.getElementById("sound-mo");
-          soundMo.currentTime = 0;
-          soundMo.play().catch((error) => console.error("Lỗi phát âm thanh:", error));
-          
-          mallet1.classList.add("active");
-          setTimeout(() => mallet1.classList.remove("active"), 100);
-          
-          // Hiển thị +1 Công đức
-          showCongDuc(1);
-        }
-
-        if (event.code === "Enter") {
-          // Gõ chuông khi nhấn phím Enter
-          const soundChuong = document.getElementById("sound-chuong");
-          soundChuong.currentTime = 0;
-          soundChuong.play().catch((error) => console.error("Lỗi phát âm thanh:", error));
-          
-          mallet2.classList.add("active");
-          setTimeout(() => mallet2.classList.remove("active"), 100);
-          
-          // Hiển thị +10 Công đức
-          showCongDuc(10);
+          goMo();
+        } else if (event.code === "Enter") {
+          goChuong();
         }
       });
+
+      // Sự kiện khi click vào button gõ mõ hoặc chuông
+      document.getElementById("btn-1").addEventListener("click", goMo);
+      document.getElementById("btn-2").addEventListener("click", goChuong);
     </script>
   </body>
 </html>
