@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./63841095088670.png" />
+    <title>CONG DUC</title>
+  </head>
+  <body>
+    <style>
+      body {
+        background-image: url('wukong-1.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        padding: 20px 50px;
+        height: 90vh;
+        color: white; /* Để đảm bảo chữ nổi bật trên nền ảnh */
+      }
+
+      button {
+        margin: 10px;
+        width: 170px;
+        height: 170px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+      }
+
+      button:active,
+      .active {
+        animation: press 0.1s ease;
+      }
+
+      @keyframes press {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(0.9);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 80%;
+      }
+
+      button img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      .text {
+        font-size: 1.5rem;
+        color: #ffffff;
+        transition: all 0.5s ease-in-out;
+        opacity: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .document {
+        text-align: center;
+        position: absolute;
+        bottom: 5px;
+        border: 1px solid black;
+        padding: 20px;
+        background-color: rgb(255 255 255 / 30%);
+        backdrop-filter: blur(10px);
+        color: #000;
+      }
+
+      /* Hiệu ứng cho phần tử công đức */
+      #cong-duc {
+        font-size: 1.5rem;
+        color: #ff4500;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      /* Hiệu ứng khi hiển thị */
+      #cong-duc.show {
+        opacity: 1;
+        transform: translate(-50%, -60%);
+      }
+
+      @media screen and (max-width: 600px) {
+        .text {
+          font-size: 0.7rem;
+        }
+        #cong-duc {
+          font-size: 1rem;
+        }
+        .document {
+          padding: 10px;
+          font-size: 0.7rem;
+        }
+      }
+    </style>
+
+    <div>
+      <h1 class="text">CÔNG ĐỨC ONLINE</h1>
+    </div>
+    <div class="icon">
+      <div style="display: flex; margin-bottom: 100px">
+        <h1 id="random-text"></h1>
+      </div>
+      <div style="display: flex; flex-direction: row;">
+        <button id="btn-1">
+          <img src="./Mõ.png" alt="Mõ" />
+        </button>
+        <audio id="sound-mo" src="./mo.mp3"></audio>
+        
+        <button id="btn-2">
+          <img src="./chuôngchua.png" alt="Chuông" />
+        </button>
+        <audio id="sound-chuong" src="./chuong.mp3"></audio>
+      </div>
+
+      <!-- Phần tử hiển thị công đức -->
+      <div id="cong-duc"></div>
+
+      <div class="document">
+        <span>Hướng dẫn sử dụng</span>
+        <p>Ấn phím "Space" để gõ mõ</p>
+        <p>Ấn phím "Enter" để gõ chuông</p>
+        <p>CUONG CONG DUC</p>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("keydown", function (event) {
+        const mallet1 = document.getElementById("btn-1");
+        const mallet2 = document.getElementById("btn-2");
+        const congDucElement = document.getElementById("cong-duc");
+
+        // Hàm hiển thị số công đức
+        function showCongDuc(value) {
+          congDucElement.textContent = `+${value} Công đức`;
+          congDucElement.classList.add("show");
+
+          // Ẩn công đức sau 1 giây
+          setTimeout(() => {
+            congDucElement.classList.remove("show");
+          }, 1000);
+        }
+
+        if (event.code === "Space") {
+          // Gõ mõ khi nhấn phím Space
+          const soundMo = document.getElementById("sound-mo");
+          soundMo.currentTime = 0;
+          soundMo.play().catch((error) => console.error("Lỗi phát âm thanh:", error));
+          
+          mallet1.classList.add("active");
+          setTimeout(() => mallet1.classList.remove("active"), 100);
+          
+          // Hiển thị +1 Công đức
+          showCongDuc(1);
+        }
+
+        if (event.code === "Enter") {
+          // Gõ chuông khi nhấn phím Enter
+          const soundChuong = document.getElementById("sound-chuong");
+          soundChuong.currentTime = 0;
+          soundChuong.play().catch((error) => console.error("Lỗi phát âm thanh:", error));
+          
+          mallet2.classList.add("active");
+          setTimeout(() => mallet2.classList.remove("active"), 100);
+          
+          // Hiển thị +10 Công đức
+          showCongDuc(10);
+        }
+      });
+    </script>
+  </body>
+</html>
